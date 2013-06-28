@@ -198,7 +198,7 @@ int CommandListener::InterfaceCmd::runCommand(SocketClient *cli,
             }
 
             if (ifc_get_hwaddr(argv[2], (void *) hwaddr)) {
-                LOGW("Failed to retrieve HW addr for %s (%s)", argv[2], strerror(errno));
+                ALOGW("Failed to retrieve HW addr for %s (%s)", argv[2], strerror(errno));
             }
 
             char *addr_s = strdup(inet_ntoa(addr));
@@ -234,7 +234,7 @@ int CommandListener::InterfaceCmd::runCommand(SocketClient *cli,
                 cli->sendMsg(ResponseCode::CommandSyntaxError, "Missing argument", false);
                 return 0;
             }
-            LOGD("Setting iface cfg");
+            ALOGD("Setting iface cfg");
 
             struct in_addr addr, mask;
             unsigned flags = 0;
@@ -279,23 +279,23 @@ int CommandListener::InterfaceCmd::runCommand(SocketClient *cli,
                     flag[len-1] = 0;
                 }
                 if (!strcmp(flag, "up")) {
-                    LOGD("Trying to bring up %s", argv[2]);
+                    ALOGD("Trying to bring up %s", argv[2]);
                     if (ifc_up(argv[2])) {
-                        LOGE("Error upping interface");
+                        ALOGE("Error upping interface");
                         cli->sendMsg(ResponseCode::OperationFailed, "Failed to up interface", true);
                         return 0;
                     }
                 } else if (!strcmp(flag, "down")) {
-                    LOGD("Trying to bring down %s", argv[2]);
+                    ALOGD("Trying to bring down %s", argv[2]);
                     if (ifc_down(argv[2])) {
-                        LOGE("Error downing interface");
+                        ALOGE("Error downing interface");
                         cli->sendMsg(ResponseCode::OperationFailed, "Failed to down interface", true);
                         return 0;
                     }
                 } else if (!strcmp(flag, "broadcast")) {
-                    LOGD("broadcast flag ignored");
+                    ALOGD("broadcast flag ignored");
                 } else if (!strcmp(flag, "multicast")) {
-                    LOGD("multicast flag ignored");
+                    ALOGD("multicast flag ignored");
                 } else {
                     cli->sendMsg(ResponseCode::CommandParameterError, "Flag unsupported", false);
                     return 0;
@@ -674,7 +674,7 @@ int CommandListener::UsbCmd::runCommand(SocketClient *cli, int argc, char **argv
 int CommandListener::readInterfaceCounters(const char *iface, unsigned long *rx, unsigned long *tx) {
     FILE *fp = fopen("/proc/net/dev", "r");
     if (!fp) {
-        LOGE("Failed to open /proc/net/dev (%s)", strerror(errno));
+        ALOGE("Failed to open /proc/net/dev (%s)", strerror(errno));
         return -1;
     }
 

@@ -41,12 +41,12 @@ int main() {
     CommandListener *cl;
     NetlinkManager *nm;
 
-    LOGI("Netd 1.0 starting");
+    ALOGI("Netd 1.0 starting");
 
 //    signal(SIGCHLD, sigchld_handler);
 
     if (!(nm = NetlinkManager::Instance())) {
-        LOGE("Unable to create NetlinkManager");
+        ALOGE("Unable to create NetlinkManager");
         exit(1);
     };
 
@@ -55,7 +55,7 @@ int main() {
     nm->setBroadcaster((SocketListener *) cl);
 
     if (nm->start()) {
-        LOGE("Unable to start NetlinkManager (%s)", strerror(errno));
+        ALOGE("Unable to start NetlinkManager (%s)", strerror(errno));
         exit(1);
     }
 
@@ -63,7 +63,7 @@ int main() {
      * Now that we're up, we can respond to commands
      */
     if (cl->startListener()) {
-        LOGE("Unable to start CommandListener (%s)", strerror(errno));
+        ALOGE("Unable to start CommandListener (%s)", strerror(errno));
         exit(1);
     }
 
@@ -72,7 +72,7 @@ int main() {
         sleep(1000);
     }
 
-    LOGI("Netd exiting");
+    ALOGI("Netd exiting");
     exit(0);
 }
 
@@ -123,5 +123,5 @@ static void coldboot(const char *path)
 
 static void sigchld_handler(int sig) {
     pid_t pid = wait(NULL);
-    LOGD("Child process %d exited", pid);
+    ALOGD("Child process %d exited", pid);
 }

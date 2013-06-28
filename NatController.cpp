@@ -54,7 +54,7 @@ int NatController::runIptablesCmd(const char *cmd) {
     while ((tmp = strsep(&next, " "))) {
         args[i++] = tmp;
         if (i == 16) {
-            LOGE("iptables argument overflow");
+            ALOGE("iptables argument overflow");
             errno = E2BIG;
             return -1;
         }
@@ -103,7 +103,7 @@ int NatController::doNatCommands(const char *intIface, const char *extIface, boo
     }
 
     if (!interfaceExists(intIface) || !interfaceExists (extIface)) {
-        LOGE("Invalid interface specified");
+        ALOGE("Invalid interface specified");
         errno = ENODEV;
         return -1;
     }

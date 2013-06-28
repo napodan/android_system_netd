@@ -59,12 +59,12 @@ int NetlinkManager::start() {
 
     if ((mSock = socket(PF_NETLINK,
                         SOCK_DGRAM,NETLINK_KOBJECT_UEVENT)) < 0) {
-        LOGE("Unable to create uevent socket: %s", strerror(errno));
+        ALOGE("Unable to create uevent socket: %s", strerror(errno));
         return -1;
     }
 
     if (setsockopt(mSock, SOL_SOCKET, SO_RCVBUFFORCE, &sz, sizeof(sz)) < 0) {
-        LOGE("Unable to set uevent socket SO_RCVBUFFORCE option: %s", strerror(errno));
+        ALOGE("Unable to set uevent socket SO_RCVBUFFORCE option: %s", strerror(errno));
         return -1;
     }
 
@@ -74,13 +74,13 @@ int NetlinkManager::start() {
     }
 
     if (bind(mSock, (struct sockaddr *) &nladdr, sizeof(nladdr)) < 0) {
-        LOGE("Unable to bind uevent socket: %s", strerror(errno));
+        ALOGE("Unable to bind uevent socket: %s", strerror(errno));
         return -1;
     }
 
     mHandler = new NetlinkHandler(this, mSock);
     if (mHandler->start()) {
-        LOGE("Unable to start NetlinkHandler: %s", strerror(errno));
+        ALOGE("Unable to start NetlinkHandler: %s", strerror(errno));
         return -1;
     }
     return 0;
@@ -88,7 +88,7 @@ int NetlinkManager::start() {
 
 int NetlinkManager::stop() {
     if (mHandler->stop()) {
-        LOGE("Unable to stop NetlinkHandler: %s", strerror(errno));
+        ALOGE("Unable to stop NetlinkHandler: %s", strerror(errno));
         return -1;
     }
     delete mHandler;
