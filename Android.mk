@@ -1,10 +1,3 @@
-BUILD_NETD := false
-ifneq ($(TARGET_SIMULATOR),true)
-    BUILD_NETD := true
-endif
-
-ifeq ($(BUILD_NETD),true)
-
 LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
@@ -39,7 +32,7 @@ ifdef WIFI_DRIVER_FW_AP_PATH
 LOCAL_CFLAGS += -DWIFI_DRIVER_FW_AP_PATH=\"$(WIFI_DRIVER_FW_AP_PATH)\"
 endif
 
-LOCAL_SHARED_LIBRARIES := libsysutils libcutils libnetutils libcrypto
+LOCAL_SHARED_LIBRARIES := libsysutils liblog libcutils libnetutils libcrypto
 
 ifeq ($(BOARD_HAVE_BLUETOOTH),true)
   LOCAL_SHARED_LIBRARIES := $(LOCAL_SHARED_LIBRARIES) libbluedroid
@@ -61,5 +54,3 @@ LOCAL_CFLAGS :=
 LOCAL_SHARED_LIBRARIES := libcutils
 
 include $(BUILD_EXECUTABLE)
-
-endif # ifeq ($(BUILD_NETD,true)
